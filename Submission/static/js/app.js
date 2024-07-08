@@ -4,34 +4,47 @@ function buildMetadata(sample) {
 
     // get the metadata field
     let metadataPulled = data.metadata
+
     // Filter the metadata for the object with the desired sample number
-    let metadataBuilt = metadataPulled.filter(item => item.id == sample)
+    let metadataBuilt = metadataPulled.filter(item => item.id == sample)[0]
 
-
-    // Use d3 to select the panel with id of `#sample-metadata`
-
+     // Use d3 to select the panel with id of `#sample-metadata`
+    let sampleDisplay = d3.select(`#sample-metadata`);
 
     // Use `.html("") to clear any existing metadata
-
+    sampleDisplay.html();
 
     // Inside a loop, you will need to use d3 to append new
     // tags for each key-value in the filtered metadata.
 
+    for (const key in metadataBuilt) {
+      if (metadataBuilt.hasOwnProperty(key)) {
+        sampleDisplay.append("h6")
+        .text(`${key.toUpperCase()}: ${metadataBuilt[key]}\n`)
+        .attr();
+      }
+    };
+    
   });
 }
+
 
 // function to build both charts
 function buildCharts(sample) {
   d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
 
     // Get the samples field
+    let dropdownMenu = d3.select(`#selDataset`)
+    let selectedSample = dropdownMenu.property("value")
 
+    console.log(selectedSample)
 
     // Filter the samples for the object with the desired sample number
+    let metadataBuilt = data.samples.filter(item => item.id == selectedSample)[0]
 
-
+    console.log(metadataBuilt)
     // Get the otu_ids, otu_labels, and sample_values
-
+    
 
     // Build a Bubble Chart
 
@@ -59,7 +72,7 @@ function init() {
     let names = data.names
 
     // Use d3 to select the dropdown with id of `#selDataset`
-    let dropdownMenu = d3.select("#selDataset");
+    let dropdownMenu = d3.select(`#selDataset`);
     
     // Use the list of sample names to populate the select options
     // Hint: Inside a loop, you will need to use d3 to append a new
@@ -70,14 +83,14 @@ function init() {
       dropdownMenu.append("option")
         .text(name)
         .attr('value', name);
-    }
+    };
 
     // Get the first sample from the list
     let firstSample = names[0]
 
     // Build charts and metadata panel with the first sample
     buildMetadata(firstSample)
-
+    buildCharts(firstSample)
   });
 }
 

@@ -37,20 +37,42 @@ function buildCharts(sample) {
     let dropdownMenu = d3.select(`#selDataset`)
     let selectedSample = dropdownMenu.property("value")
 
-    console.log(selectedSample)
-
     // Filter the samples for the object with the desired sample number
-    let metadataBuilt = data.samples.filter(item => item.id == selectedSample)[0]
+    let sampleDataBuilt = data.samples.filter(item => item.id == selectedSample)[0]
 
-    console.log(metadataBuilt)
-    // Get the otu_ids, otu_labels, and sample_values
+     // Get the otu_ids, otu_labels, and sample_values
+    let otu_ids = sampleDataBuilt.otu_ids;
+    let otu_labels = sampleDataBuilt.otu_labels;
+    let sample_values = sampleDataBuilt.sample_values;
+    let title = "Bacteria Cultures per Sample";
     
 
     // Build a Bubble Chart
+    let trace1 ={
+      x: otu_ids,
+      y: sample_values,
+      text: otu_labels,
+      mode: 'markers',
+      marker: {
+        size:sample_values,
+        color:otu_ids
+      }
 
+    }
 
+    let traceData = [trace1];
+
+    let layout = {
+      title: title,
+      xaxis: {
+        title: "OTU ID"
+      },
+      yaxis: {
+        title: "Number of Bacteria"
+      }
+    };
     // Render the Bubble Chart
-
+    Plotly.newPlot(`bubble`,traceData, layout )
 
     // For the Bar Chart, map the otu_ids to a list of strings for your yticks
 

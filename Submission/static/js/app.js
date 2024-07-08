@@ -60,9 +60,9 @@ function buildCharts(sample) {
 
     }
 
-    let traceData = [trace1];
+    let traceDataBubble = [trace1];
 
-    let layout = {
+    let layoutBubble = {
       title: title,
       xaxis: {
         title: "OTU ID"
@@ -72,17 +72,43 @@ function buildCharts(sample) {
       }
     };
     // Render the Bubble Chart
-    Plotly.newPlot(`bubble`,traceData, layout )
+    Plotly.newPlot(`bubble`,traceDataBubble, layoutBubble )
 
     // For the Bar Chart, map the otu_ids to a list of strings for your yticks
+    let otu_idsStr = otu_ids.toString();
 
+    console.log(otu_idsStr)
+    
 
     // Build a Bar Chart
     // Don't forget to slice and reverse the input data appropriately
+/// Youre only slicing the sample values. You need to slice and sort all the metadata and then break that down into distinct arrays.
 
+    sample_values.sort((a,b) => b-a);
+    console.log(sample_values);
+    let sampleSliced = sample_values.slice(0,10);
+    sampleSliced.reverse();
+    console.log(sampleSliced);
 
+    let trace2 = {
+      x: sampleSliced,
+      y: otu_idsStr,
+      text: otu_labels,
+      type: 'bar',
+      orientation: 'h'
+    }
+    
+    let traceDataBar = [trace2]
+
+    let layoutBar = {
+      title: title,
+      xaxis: {
+        title: "Number of Bacteria"
+      },
+
+    };
     // Render the Bar Chart
-
+    Plotly.newPlot(`bar`,traceDataBar, layoutBar )
   });
 }
 

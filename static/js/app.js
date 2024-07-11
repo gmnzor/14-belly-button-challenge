@@ -20,8 +20,7 @@ function buildMetadata(sample) {
     for (const key in metadataBuilt) {
       if (metadataBuilt.hasOwnProperty(key)) {
         sampleDisplay.append("div")
-        .text(`${key.toUpperCase()}: ${metadataBuilt[key]}`)
-               
+        .text(`${key.toUpperCase()}: ${metadataBuilt[key]}`)       
       }
     };
   });
@@ -43,7 +42,6 @@ function buildCharts(sample) {
     let otu_labels = sampleDataBuilt.otu_labels;
     let sample_values = sampleDataBuilt.sample_values;
       
-
     // Build a Bubble Chart
     let trace1 ={
       x: otu_ids,
@@ -54,7 +52,6 @@ function buildCharts(sample) {
         size:sample_values,
         color:otu_ids
       }
-
     }
 
     let traceDataBubble = [trace1];
@@ -66,7 +63,8 @@ function buildCharts(sample) {
       },
       yaxis: {
         title: "Number of Bacteria"
-      }
+      },
+      autosize: true
     };
     // Render the Bubble Chart
     Plotly.newPlot(`bubble`,traceDataBubble, layoutBubble );
@@ -86,7 +84,7 @@ function buildCharts(sample) {
     
     let trace2 = {
       x: slicedSample,
-      y:slicedOtu_Ids,
+      y: slicedOtu_Ids,
       text: slicedOtu_labels,
       type: 'bar',
       orientation: 'h'

@@ -10,9 +10,16 @@ function buildMetadata(sample) {
 
      // Use d3 to select the panel with id of `#sample-metadata`
     let sampleDisplay = d3.select(`#sample-metadata`);
+    let header = d3.select(`cardHeader`).style
     
     // Use `.html("") to clear any existing metadata
     sampleDisplay.html("");
+    
+    const demographicHeader = document.getElementsByClassName('card-header');
+    if (demographicHeader) {
+      demographicHeader[0].style.backgroundColor = '#1f77b4';
+      demographicHeader[0].style.color = 'white'
+    };
     
     // Inside a loop, you will need to use d3 to append new
     // tags for each key-value in the filtered metadata.
@@ -25,6 +32,7 @@ function buildMetadata(sample) {
     };
   });
 }
+
 
 
 // function to build both charts
